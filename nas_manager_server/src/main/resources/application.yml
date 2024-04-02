@@ -1,0 +1,21 @@
+server:
+  port: 8085
+
+spring:
+  datasource:
+    chatType: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 15
+      minimum-idle: 5
+      pool-name: DatebookHikariCP
+      # 修改事务默认隔离级别为RC
+      transaction-isolation: 2
+    password: xxjy_nas
+    url: jdbc:mysql://localhost:3306/nas?rewriteBatchedStatements=true&characterEncoding=utf8&serverTimezone=GMT%2b8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull
+    username: nas
