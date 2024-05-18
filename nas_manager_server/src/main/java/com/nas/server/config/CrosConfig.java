@@ -7,8 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-public class CorsConfig implements WebMvcConfigurer {
-
+public class CrosConfig implements WebMvcConfigurer {
+    
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         //设置允许跨域的路径
@@ -20,6 +20,6 @@ public class CorsConfig implements WebMvcConfigurer {
                 //设置允许的方法
                 .allowedMethods("*")
                 //跨域允许时间
-                .maxAge(24*3600);
+                .maxAge(24 * 3600);
     }
 }
