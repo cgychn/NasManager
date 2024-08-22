@@ -41,7 +41,7 @@ public class DriveAPI {
         }
         // get head indexes
         String[] cmd = {"sh", "-c", "df -hl | awk 'NR == 1'"};
-        ProcessResult result = ProcessRunner.run(cmd, null, null,"UTF-8", null, null, false);
+        ProcessResult result = ProcessRunner.run(cmd, null, null,"UTF-8", null, null, true);
         String resString = result.getOutPut().toString();
         String[] lines = resString.split("\n");
         int sizeEndIndex = 0, usedEndIndex = 0, availEndIndex = 0, usedPercentageEndIndex = 0, mountOnStartIndex = 0;
@@ -62,7 +62,7 @@ public class DriveAPI {
             try {
                 String[] cmdDf = new String[]{"sh", "-c", "df -h" + (showNetMount ? "" : "l") + " " + dfPath + " | awk 'NR > 1'"};
                 // match contents by head indexes
-                resultDf.set(ProcessRunner.run(cmdDf, null, null, "UTF-8", null, processDf::set, false));
+                resultDf.set(ProcessRunner.run(cmdDf, null, null, "UTF-8", null, processDf::set, true));
             } catch (Exception e) {
                 logger.error("执行df命令失败", e);
             }
@@ -78,7 +78,8 @@ public class DriveAPI {
             dfTimeoutCallback.callback();
             return res;
         }
-        resString = result.getOutPut().toString();
+        resString = resultDf.get().getOutPut().toString();
+        logger.info("resString: " + resString);
         lines = resString.split("\n");
         for (String line : lines) {
             if (
