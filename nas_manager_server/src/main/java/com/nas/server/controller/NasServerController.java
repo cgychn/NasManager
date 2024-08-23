@@ -1,5 +1,6 @@
 package com.nas.server.controller;
 
+import com.nas.server.entity.db.AutoMount;
 import com.nas.server.service.NasServerService;
 import com.nas.server.util.RespRes;
 import com.nas.server.util.StringUtil;
@@ -63,6 +64,55 @@ public class NasServerController {
             return RespRes.success(serverService.getMountPointUsage(mountPoint), "");
         } catch (Exception e) {
             logger.error("获取挂载点占用失败", e);
+            return RespRes.error(null, "");
+        }
+    }
+
+    @GetMapping("setPartitionAutoMount")
+    public Map<String, Object> setPartitionAutoMount (@RequestParam("partitionUUID") String partitionUUID,
+                                                      @RequestParam("mountPoint") String mountPoint,
+                                                      @RequestParam(value = "fsType", defaultValue = "", required = false) String fsType,
+                                                      @RequestParam(value = "options", defaultValue = "", required = false) String options) {
+        try {
+            if (StringUtil.isEmpty(partitionUUID) || StringUtil.isEmpty(mountPoint)) {
+                return RespRes.error(null, "");
+            }
+            serverService.setAutoMount(partitionUUID, mountPoint, fsType, options);
+            return RespRes.success(null, "");
+        } catch (Exception e) {
+            logger.error("设置分区 " + partitionUUID + " 自动挂载失败", e);
+            return RespRes.error(null, "");
+        }
+    }
+
+    @GetMapping("removePartitionAutoMount")
+    public Map<String, Object> removePartitionAutoMount (@RequestParam("partitionUUID") String partitionUUID) {
+        try {
+            if (StringUtil.isEmpty(partitionUUID)) {
+                return RespRes.error(null, "");
+            }
+            serverService.deleteAutoMountByUUID(partitionUUID);
+            return RespRes.success(null, "");
+        } catch (Exception e) {
+            logger.error("移除分区 " + partitionUUID + " 自动挂载失败", e);
+            return RespRes.error(null, "");
+        }
+    }
+
+    @GetMapping("getLocalDeviceAutoMountList")
+    public Map<String, Object> getLocalDeviceAutoMountList() {
+        try {
+            return RespRes.success(serverService.getAutoMountList(), "");
+        } catch (Exception e) {
+            return RespRes.error(null, "");
+        }
+    }
+
+    @GetMapping("getNetMountList")
+    public Map<String, Object> getNetMountList() {
+        try {
+            return RespRes.success(serverService.getNetMountList(), "");
+        } catch (Exception e) {
             return RespRes.error(null, "");
         }
     }
