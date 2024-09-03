@@ -1,16 +1,14 @@
 package com.nas.server.controller;
 
-import com.nas.server.entity.db.AutoMount;
+import com.nas.server.entity.DirShareRequest;
+import com.nas.server.entity.ListFileRequest;
 import com.nas.server.service.NasServerService;
 import com.nas.server.util.RespRes;
 import com.nas.server.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,6 +102,7 @@ public class NasServerController {
         try {
             return RespRes.success(serverService.getAutoMountList(), "");
         } catch (Exception e) {
+            logger.error("", e);
             return RespRes.error(null, "");
         }
     }
@@ -113,8 +112,76 @@ public class NasServerController {
         try {
             return RespRes.success(serverService.getNetMountList(), "");
         } catch (Exception e) {
+            logger.error("", e);
             return RespRes.error(null, "");
         }
     }
 
+    @GetMapping("initDisk")
+    public Map<String, Object> initDisk(@RequestParam("diskSeNo") String diskSeNo) {
+        try {
+            serverService.initDisk(diskSeNo);
+            return RespRes.success(null, "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, "");
+        }
+    }
+
+    @GetMapping("createNewPartition")
+    public Map<String, Object> createNewPartition(@RequestParam("diskSeNo") String diskSeNo,
+                                                  @RequestParam("start") String start,
+                                                  @RequestParam("end") String end) {
+        try {
+            serverService.createNewPartition(diskSeNo, start, end);
+            return RespRes.success(null, "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, e.getMessage());
+        }
+    }
+
+    @GetMapping("removePartition")
+    public Map<String, Object> removePartition (@RequestParam("diskSeNo") String diskSeNo, @RequestParam("partitionNum") int partitionNum) {
+        try {
+            serverService.removePartition(diskSeNo, partitionNum);
+            return RespRes.success(null, "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, e.getMessage());
+        }
+    }
+
+    @GetMapping("formatPartition")
+    public Map<String, Object> formatPartition (@RequestParam("diskSeNo") String diskSeNo,
+                                                @RequestParam("partitionNum") int partitionNum,
+                                                @RequestParam("format") String format) {
+        try {
+            serverService.formatPartition(diskSeNo, partitionNum, format);
+            return RespRes.success(null, "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, e.getMessage());
+        }
+    }
+
+    @PostMapping("shareDir")
+    public Map<String, Object> shareDir (@RequestBody DirShareRequest request) {
+        try {
+            return RespRes.success(serverService.shareDir(request), "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, e.getMessage());
+        }
+    }
+
+    @PostMapping("listFiles")
+    public Map<String, Object> listFiles(@RequestBody ListFileRequest listFileRequest) {
+        try {
+            return RespRes.success(serverService.listFiles(listFileRequest), "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, e.getMessage());
+        }
+    }
 }
