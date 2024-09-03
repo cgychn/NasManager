@@ -176,7 +176,7 @@ public class NasServerController {
         }
     }
 
-    @GetMapping
+    @GetMapping("getShareCfg")
     public Map<String, Object> getShareCfg (@RequestParam Protocol protocol) {
         try {
             return RespRes.success(serverService.getShareCfg(protocol), "");
