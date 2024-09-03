@@ -12,6 +12,15 @@ public class Partition {
     private String mountOn;
     private int partitionNumber;
     private String uuid;
+    private boolean autoMount;
+
+    public boolean isAutoMount() {
+        return autoMount;
+    }
+
+    public void setAutoMount(boolean autoMount) {
+        this.autoMount = autoMount;
+    }
 
     public String getUuid() {
         return uuid;
