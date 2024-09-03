@@ -13,7 +13,7 @@ public class DirShareFactory {
         if (cache.containsKey(shareProtocol)) {
             return cache.get(shareProtocol);
         }
-        Reflections reflections = new Reflections("com.test");
+        Reflections reflections = new Reflections("com.nas.server.util.dir_share");
         Set<Class<? extends ShareServer>> classSet = reflections.getSubTypesOf(ShareServer.class);
         ShareServer obj = null;
         for (Class<? extends ShareServer> clazz : classSet){
