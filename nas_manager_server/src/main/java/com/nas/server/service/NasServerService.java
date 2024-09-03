@@ -10,6 +10,7 @@ import com.nas.server.util.DriveAPI;
 import com.nas.server.util.FileUtil;
 import com.nas.server.util.StringUtil;
 import com.nas.server.util.dir_share.DirShareFactory;
+import com.nas.server.util.dir_share.Protocol;
 import com.nas.server.util.dir_share.ShareServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,7 +153,7 @@ public class NasServerService {
         }
     }
 
-    public boolean shareDir(DirShareRequest request) throws Exception {
+    public boolean share(DirShareRequest request) throws Exception {
         ShareServer shareServer = DirShareFactory.generateShareUtil(request.getProtocol());
         if (shareServer != null) {
             boolean enable;
@@ -217,5 +218,15 @@ public class NasServerService {
             }
         }
         return res;
+    }
+
+    public ShareConfig getShareCfg(Protocol protocol) {
+        try {
+            ShareServer shareServer = DirShareFactory.generateShareUtil(protocol);
+            return shareServer.toShareConfig();
+        } catch (Exception e) {
+            logger.error("获取共享配置失败", e);
+            return null;
+        }
     }
 }

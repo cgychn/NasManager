@@ -5,6 +5,7 @@ import com.nas.server.entity.ListFileRequest;
 import com.nas.server.service.NasServerService;
 import com.nas.server.util.RespRes;
 import com.nas.server.util.StringUtil;
+import com.nas.server.util.dir_share.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,10 +166,20 @@ public class NasServerController {
         }
     }
 
-    @PostMapping("shareDir")
-    public Map<String, Object> shareDir (@RequestBody DirShareRequest request) {
+    @PostMapping("share")
+    public Map<String, Object> share (@RequestBody DirShareRequest request) {
         try {
-            return RespRes.success(serverService.shareDir(request), "");
+            return RespRes.success(serverService.share(request), "");
+        } catch (Exception e) {
+            logger.error("", e);
+            return RespRes.error(null, e.getMessage());
+        }
+    }
+
+    @GetMapping
+    public Map<String, Object> getShareCfg (@RequestParam Protocol protocol) {
+        try {
+            return RespRes.success(serverService.getShareCfg(protocol), "");
         } catch (Exception e) {
             logger.error("", e);
             return RespRes.error(null, e.getMessage());

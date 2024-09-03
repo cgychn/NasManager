@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 
-public class SMBShareServer implements ShareServer {
+public class SMBShareServer extends ShareServer {
     private final Logger logger = LoggerFactory.getLogger(SMBShareServer.class);
 
     @Override
