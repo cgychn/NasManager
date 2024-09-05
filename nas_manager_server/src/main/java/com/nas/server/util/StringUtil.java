@@ -1,9 +1,11 @@
 package com.nas.server.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class StringUtil {
 
     public static String substring(String str, int startIndex, int endIndex) {
-        if (str.length() <= startIndex || str.length() < endIndex || startIndex >= endIndex || startIndex < 0) {
+        if (str.length() < endIndex || startIndex >= endIndex || startIndex < 0) {
             return "";
         }
         return str.substring(startIndex, endIndex);
@@ -20,7 +22,7 @@ public class StringUtil {
         if (trim) {
             string = string.trim();
         }
-        return string.length() == 0;
+        return string.isEmpty();
     }
 
     public static int getFirstSpaceIndexInFrontOfGivenIndexInString (String string, int givenIndex) {
@@ -36,6 +38,10 @@ public class StringUtil {
             }
         }
         return -1;
+    }
+
+    public static String getStringMD5 (String str) {
+        return DigestUtils.md5Hex(str);
     }
 
     public static void main (String[] args) {

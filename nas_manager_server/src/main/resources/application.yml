@@ -19,3 +19,9 @@ spring:
     password: xxjy_nas
     url: jdbc:mysql://localhost:3306/nas?rewriteBatchedStatements=true&characterEncoding=utf8&serverTimezone=GMT%2b8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull
     username: nas
+
+jwt:
+  header: Authorization
+  secret: CGYZXZHomeNas
+  tokenPrefix: "Bearer "
+  expiration: 3600000
